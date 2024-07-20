@@ -17,6 +17,10 @@ provider:
             - "dynamodb:Scan"
           Resource: 
             - "arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/Trips"
+        - Effect: Allow
+          Action: 
+            - "bedrock:InvokeModel"
+          Resource: "*"
 
 plugins:
   - serverless-go-plugin
@@ -34,6 +38,13 @@ functions:
       - httpApi:
           path: /trips
           method: get
+  guide:
+    handler: './TripIA'
+    timeout: 20
+    events:
+      - httpApi:
+          path: /guide
+          method: post
 
 custom:
   go:
